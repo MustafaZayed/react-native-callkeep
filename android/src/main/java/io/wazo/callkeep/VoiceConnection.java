@@ -271,7 +271,9 @@ public class VoiceConnection extends Connection {
 
     @Override
     public void onSilence() {
-        super.onSilence();
+        if(Build.VERSION.SDK_INT >= 29) {
+            super.onSilence();
+        }
 
         sendCallRequestToActivity(ACTION_ON_SILENCE_INCOMING_CALL, handle);
         Log.d(TAG, "[VoiceConnection] onSilence called");
