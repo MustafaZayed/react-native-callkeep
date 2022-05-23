@@ -15,7 +15,6 @@
 #import <React/RCTLog.h>
 
 #import <AVFoundation/AVAudioSession.h>
-#import <WebRTC/RTCAudioSession.h>
 #import <CallKit/CallKit.h>
 
 #ifdef DEBUG
@@ -1108,7 +1107,6 @@ RCT_EXPORT_METHOD(reportUpdatedCall:(NSString *)uuidString contactIdentifier:(NS
         AVAudioSessionInterruptionOptionKey: [NSNumber numberWithInt:AVAudioSessionInterruptionOptionShouldResume]
     };
     [[NSNotificationCenter defaultCenter] postNotificationName:AVAudioSessionInterruptionNotification object:nil userInfo:userInfo];
-    RTCAudioSession.sharedInstance.isAudioEnabled = YES;
     [self configureAudioSession];
     
     [self sendEventWithNameWrapper:RNCallKeepDidActivateAudioSession body:nil];
@@ -1119,7 +1117,6 @@ RCT_EXPORT_METHOD(reportUpdatedCall:(NSString *)uuidString contactIdentifier:(NS
 #ifdef DEBUG
     NSLog(@"[RNCallKeep][CXProviderDelegate][provider:didDeactivateAudioSession]");
 #endif
-    RTCAudioSession.sharedInstance.isAudioEnabled = NO;
     [self sendEventWithNameWrapper:RNCallKeepDidDeactivateAudioSession body:nil];
 }
 
