@@ -681,12 +681,16 @@ public class RNCallKeepModule extends ReactContextBaseJavaModule {
             WritableArray devices = Arguments.createArray();
             ArrayList<String> typeChecker = new ArrayList<>();
             AudioDeviceInfo[] audioDeviceInfo = audioManager.getDevices(AudioManager.GET_DEVICES_INPUTS + AudioManager.GET_DEVICES_OUTPUTS);
+            String selectedAudioRoute = getSelectedAudioRoute(audioManager);
             for (AudioDeviceInfo device : audioDeviceInfo){
                 String type = getAudioRouteType(device.getType());
                 if(type != null && !typeChecker.contains(type)) {
                     WritableMap deviceInfo = Arguments.createMap();
                     deviceInfo.putString("name",  type);
                     deviceInfo.putString("type",  type);
+                    if(type.equals(selectedAudioRoute)) {
+                        deviceInfo.putBoolean("selected",  true);
+                    }
                     typeChecker.add(type);
                     devices.pushMap(deviceInfo);
                 }
@@ -712,6 +716,19 @@ public class RNCallKeepModule extends ReactContextBaseJavaModule {
             default:
                 return null;
         }
+    }
+
+    private String getSelectedAudioRoute(AudioManager audioManager){
+        if(audioManager.isBluetoothScoOn()){
+            return "Bluetooth";
+        }
+        if(audioManager.isSpeakerphoneOn()){
+            return "Speaker";
+        }
+        if(audioManager.isWiredHeadsetOn()){
+            return "Headset";
+        }
+        return "Phone";
     }
 
     @ReactMethod
@@ -965,15 +982,11 @@ public class RNCallKeepModule extends ReactContextBaseJavaModule {
     }
 
     private Boolean hasPermissions() {
-        Activity currentActivity = this.getCurrentReactActivity();
-
-        if (currentActivity == null) {
-            return false;
-        }
+        ReactApplicationContext context = getContext();
 
         boolean hasPermissions = true;
         for (String permission : permissions) {
-            int permissionCheck = ContextCompat.checkSelfPermission(currentActivity, permission);
+            int permissionCheck = ContextCompat.checkSelfPermission(context, permission);
             if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
                 hasPermissions = false;
             }
@@ -982,9 +995,10 @@ public class RNCallKeepModule extends ReactContextBaseJavaModule {
         return hasPermissions;
     }
 
-    private static boolean hasPhoneAccount() {
-        return isConnectionServiceAvailable() && telecomManager != null
-            && telecomManager.getPhoneAccount(handle) != null && telecomManager.getPhoneAccount(handle).isEnabled();
+    private boolean hasPhoneAccount() {
+        return isConnectionServiceAvailable() && telecomManager != null &&
+            hasPermissions() && telecomManager.getPhoneAccount(handle) != null &&
+            telecomManager.getPhoneAccount(handle).isEnabled();
     }
 
     private void registerReceiver() {
@@ -1143,6 +1157,7 @@ public class RNCallKeepModule extends ReactContextBaseJavaModule {
                     args.putString("callUUID", attributeMap.get(EXTRA_CALL_UUID));
                     args.putString("name", attributeMap.get(EXTRA_CALLER_NAME));
                     sendEventToJS("RNCallKeepOnIncomingConnectionFailed", args);
+                    break;
                 case ACTION_DID_CHANGE_AUDIO_ROUTE:
                     args.putString("handle", attributeMap.get(EXTRA_CALL_NUMBER));
                     args.putString("callUUID", attributeMap.get(EXTRA_CALL_UUID));
