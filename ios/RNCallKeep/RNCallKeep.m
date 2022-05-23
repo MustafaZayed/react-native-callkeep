@@ -72,6 +72,7 @@ RCT_EXPORT_MODULE()
 
         self.callKeepProvider = sharedProvider;
         [self.callKeepProvider setDelegate:self queue:nil];
+        
     }
     return self;
 }
@@ -1020,7 +1021,10 @@ continueUserActivity:(NSUserActivity *)userActivity
     [self configureAudioSession];
     //tell the JS to actually make the call
     [self sendEventWithNameWrapper:RNCallKeepDidReceiveStartCallAction body:@{ @"callUUID": [action.callUUID.UUIDString lowercaseString], @"handle": action.handle.value }];
-    [action fulfill];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [action fulfill];
+    });}
 }
 
 // Update call contact info
