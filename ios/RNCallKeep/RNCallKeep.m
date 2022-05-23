@@ -1022,9 +1022,7 @@ continueUserActivity:(NSUserActivity *)userActivity
     //tell the JS to actually make the call
     [self sendEventWithNameWrapper:RNCallKeepDidReceiveStartCallAction body:@{ @"callUUID": [action.callUUID.UUIDString lowercaseString], @"handle": action.handle.value }];
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [action fulfill];
-    });
+    [action fulfill];
 }
 
 // Update call contact info
@@ -1049,7 +1047,9 @@ RCT_EXPORT_METHOD(reportUpdatedCall:(NSString *)uuidString contactIdentifier:(NS
 #endif
     [self configureAudioSession];
     [self sendEventWithNameWrapper:RNCallKeepPerformAnswerCallAction body:@{ @"callUUID": [action.callUUID.UUIDString lowercaseString] }];
-    [action fulfill];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [action fulfill];
+    });
 }
 
 // Ending incoming call
