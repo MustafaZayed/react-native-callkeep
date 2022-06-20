@@ -1033,9 +1033,7 @@ public class RNCallKeepModule extends ReactContextBaseJavaModule {
             return true;
         }
 
-        return isConnectionServiceAvailable() && telecomManager != null &&
-                hasPermissions() && telecomManager.getPhoneAccount(handle) != null &&
-                telecomManager.getPhoneAccount(handle).isEnabled();
+        return isConnectionServiceAvailable();
     }
 
     private void registerReceiver() {
