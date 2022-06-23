@@ -215,7 +215,7 @@ public class RNCallKeepModule extends ReactContextBaseJavaModule {
         ComponentName cName = new ComponentName(context, VoiceConnectionService.class);
         String appName = this.getApplicationName(context);
 
-        handle = new PhoneAccountHandle(cName, appName);
+        handle = new (cName, appName);
         telecomManager = (TelecomManager) context.getSystemService(Context.TELECOM_SERVICE);
     }
 
@@ -474,6 +474,7 @@ public class RNCallKeepModule extends ReactContextBaseJavaModule {
 
                         @Override
                         public void reject(String code, String message) {
+                            Log.d(TAG, "[RNCallKeepModule] " + message));
                             hasPhoneAccountPromise.resolve(false);
                         }
 
@@ -484,6 +485,7 @@ public class RNCallKeepModule extends ReactContextBaseJavaModule {
 
                         @Override
                         public void reject(String code, String message, Throwable throwable) {
+                            Log.d(TAG, "[RNCallKeepModule] " + message));
                             hasPhoneAccountPromise.resolve(false);
                         }
 
@@ -509,16 +511,19 @@ public class RNCallKeepModule extends ReactContextBaseJavaModule {
 
                         @Override
                         public void reject(String code, String message, @NonNull WritableMap userInfo) {
+                            Log.d(TAG, "[RNCallKeepModule] " + message));
                             hasPhoneAccountPromise.resolve(false);
                         }
 
                         @Override
                         public void reject(String code, String message, Throwable throwable, WritableMap userInfo) {
+                            Log.d(TAG, "[RNCallKeepModule] " + message));
                             hasPhoneAccountPromise.resolve(false);
                         }
 
                         @Override
                         public void reject(String message) {
+                            Log.d(TAG, "[RNCallKeepModule] " + message));
                             hasPhoneAccountPromise.resolve(false);
                         }
                     });
