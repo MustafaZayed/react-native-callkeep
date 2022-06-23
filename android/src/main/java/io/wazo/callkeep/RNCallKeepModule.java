@@ -474,7 +474,6 @@ public class RNCallKeepModule extends ReactContextBaseJavaModule {
 
                         @Override
                         public void reject(String code, String message) {
-                            Log.d(TAG, "[RNCallKeepModule] " + message));
                             hasPhoneAccountPromise.resolve(false);
                         }
 
@@ -485,7 +484,6 @@ public class RNCallKeepModule extends ReactContextBaseJavaModule {
 
                         @Override
                         public void reject(String code, String message, Throwable throwable) {
-                            Log.d(TAG, "[RNCallKeepModule] " + message));
                             hasPhoneAccountPromise.resolve(false);
                         }
 
@@ -511,19 +509,16 @@ public class RNCallKeepModule extends ReactContextBaseJavaModule {
 
                         @Override
                         public void reject(String code, String message, @NonNull WritableMap userInfo) {
-                            Log.d(TAG, "[RNCallKeepModule] " + message));
                             hasPhoneAccountPromise.resolve(false);
                         }
 
                         @Override
                         public void reject(String code, String message, Throwable throwable, WritableMap userInfo) {
-                            Log.d(TAG, "[RNCallKeepModule] " + message));
                             hasPhoneAccountPromise.resolve(false);
                         }
 
                         @Override
                         public void reject(String message) {
-                            Log.d(TAG, "[RNCallKeepModule] " + message));
                             hasPhoneAccountPromise.resolve(false);
                         }
                     });
