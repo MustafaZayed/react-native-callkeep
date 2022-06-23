@@ -157,8 +157,7 @@ public class RNCallKeepModule extends ReactContextBaseJavaModule {
 
     private boolean isSelfManaged() {
         try {
-            return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && _settings.hasKey("selfManaged")
-                    && _settings.getBoolean("selfManaged");
+            return true
         } catch (Exception e) {
             return false;
         }
