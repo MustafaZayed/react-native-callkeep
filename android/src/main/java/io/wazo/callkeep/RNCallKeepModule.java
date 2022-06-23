@@ -333,8 +333,6 @@ public class RNCallKeepModule extends ReactContextBaseJavaModule {
         extras.putString(EXTRA_CALLER_NAME, callerName);
         extras.putString(EXTRA_CALL_UUID, uuid);
         extras.putString(EXTRA_HAS_VIDEO, String.valueOf(hasVideo));
-
-        telecomManager.addNewIncomingCall(handle, extras);
     }
 
     @ReactMethod
