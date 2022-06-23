@@ -156,7 +156,7 @@ public class RNCallKeepModule extends ReactContextBaseJavaModule {
     }
 
     private boolean isSelfManaged() {
-        return true
+        return true;
     }
 
     @Override
