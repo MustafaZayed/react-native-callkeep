@@ -317,7 +317,7 @@ public class RNCallKeepModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void displayIncomingCall(String uuid, String number, String callerName, boolean hasVideo) {
-        if (!isConnectionServiceAvailable() || !hasPhoneAccount()) {
+        if (!isConnectionServiceAvailable()) {
             Log.w(TAG,
                     "[RNCallKeepModule] displayIncomingCall ignored due to no ConnectionService or no phone account");
             return;
@@ -340,7 +340,7 @@ public class RNCallKeepModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void answerIncomingCall(String uuid) {
         Log.d(TAG, "[RNCallKeepModule] answerIncomingCall, uuid: " + uuid);
-        if (!isConnectionServiceAvailable() || !hasPhoneAccount()) {
+        if (!isConnectionServiceAvailable()) {
             Log.w(TAG, "[RNCallKeepModule] answerIncomingCall ignored due to no ConnectionService or no phone account");
             return;
         }
@@ -364,7 +364,7 @@ public class RNCallKeepModule extends ReactContextBaseJavaModule {
         Log.d(TAG, "[RNCallKeepModule] startCall called, uuid: " + uuid + ", number: " + number + ", callerName: "
                 + callerName);
 
-        if (!isConnectionServiceAvailable() || !hasPhoneAccount() || !hasPermissions() || number == null) {
+        if (!isConnectionServiceAvailable() || !hasPermissions() || number == null) {
             Log.w(TAG, "[RNCallKeepModule] startCall ignored: " + isConnectionServiceAvailable() + ", "
                     + hasPhoneAccount() + ", " + hasPermissions() + ", " + number);
             return;
@@ -390,7 +390,7 @@ public class RNCallKeepModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void endCall(String uuid) {
         Log.d(TAG, "[RNCallKeepModule] endCall called, uuid: " + uuid);
-        if (!isConnectionServiceAvailable() || !hasPhoneAccount()) {
+        if (!isConnectionServiceAvailable()) {
             Log.w(TAG, "[RNCallKeepModule] endCall ignored due to no ConnectionService or no phone account");
             return;
         }
@@ -408,7 +408,7 @@ public class RNCallKeepModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void endAllCalls() {
         Log.d(TAG, "[RNCallKeepModule] endAllCalls called");
-        if (!isConnectionServiceAvailable() || !hasPhoneAccount()) {
+        if (!isConnectionServiceAvailable()) {
             Log.w(TAG, "[RNCallKeepModule] endAllCalls ignored due to no ConnectionService or no phone account");
             return;
         }
@@ -530,7 +530,7 @@ public class RNCallKeepModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void checkDefaultPhoneAccount(Promise promise) {
-        if (!isConnectionServiceAvailable() || !hasPhoneAccount()) {
+        if (!isConnectionServiceAvailable()) {
             promise.resolve(true);
             return;
         }
@@ -576,7 +576,7 @@ public class RNCallKeepModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void reportEndCallWithUUID(String uuid, int reason) {
         Log.d(TAG, "[RNCallKeepModule] reportEndCallWithUUID, uuid: " + uuid + ", reason: " + reason);
-        if (!isConnectionServiceAvailable() || !hasPhoneAccount()) {
+        if (!isConnectionServiceAvailable()) {
             return;
         }
 
@@ -591,7 +591,7 @@ public class RNCallKeepModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void rejectCall(String uuid) {
         Log.d(TAG, "[RNCallKeepModule] rejectCall, uuid: " + uuid);
-        if (!isConnectionServiceAvailable() || !hasPhoneAccount()) {
+        if (!isConnectionServiceAvailable()) {
             Log.w(TAG, "[RNCallKeepModule] rejectCall ignored due to no ConnectionService or no phone account");
             return;
         }
@@ -608,7 +608,7 @@ public class RNCallKeepModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void setConnectionState(String uuid, int state) {
         Log.d(TAG, "[RNCallKeepModule] setConnectionState, uuid: " + uuid + ", state :" + state);
-        if (!isConnectionServiceAvailable() || !hasPhoneAccount()) {
+        if (!isConnectionServiceAvailable()) {
             Log.w(TAG, "[RNCallKeepModule] String ignored due to no ConnectionService or no phone account");
             return;
         }
